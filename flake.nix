@@ -37,6 +37,7 @@
             buildInputs = [
               pkgs.ab-av1
               pkgs.ffmpeg
+              pkgs.ripgrep
               pkgs.uutils-coreutils-noprefix
             ];
 
