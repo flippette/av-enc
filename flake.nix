@@ -25,7 +25,7 @@
         packages = {
           default = self'.packages.anienc;
 
-          anienc = pkgs.stdenvNoCC.mkDerivation {
+          anienc = pkgs.stdenvNoCC.mkDerivation rec {
             name = "anienc";
             src = ./.;
 
@@ -46,6 +46,13 @@
               install -Dm555 \
                 ./anienc \
                 $out/bin/anienc
+            '';
+
+            postFixup = let
+              path = pkgs.lib.makeBinPath buildInputs;
+            in ''
+              wrapProgram $out/bin/anienc \
+                --set PATH ${path}
             '';
           };
         };
