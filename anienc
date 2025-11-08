@@ -4,6 +4,9 @@
 # shellcheck disable=SC3040
 set -euo pipefail
 
+# disable word splitting on space
+IFS=$(printf "\n\t")
+
 query() {
   file=$1
   stream=$2
