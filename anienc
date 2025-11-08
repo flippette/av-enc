@@ -41,7 +41,7 @@ for file in $files; do
       --preset 3 \
       --enc-input hwaccel=auto \
       --min-vmaf 96 \
-      --thorough | grep predicted | cut -d ' ' -f 2
+      --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
     crf=24
