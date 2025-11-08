@@ -43,7 +43,9 @@
             '';
 
             installPhase = ''
-              install -Dm555 ./anienc $out/anienc
+              install -Dm555 \
+                ./anienc \
+                $out/bin/anienc
             '';
           };
         };
