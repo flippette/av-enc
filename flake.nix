@@ -37,6 +37,7 @@
             buildInputs = [
               pkgs.ab-av1
               pkgs.ffmpeg
+              pkgs.uutils-coreutils-noprefix
             ];
 
             checkPhase = ''
