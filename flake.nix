@@ -31,6 +31,7 @@
 
             nativeBuildInputs = [
               pkgs.shellcheck
+              pkgs.makeWrapper
             ];
 
             buildInputs = [
