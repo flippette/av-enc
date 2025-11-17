@@ -38,7 +38,7 @@ for file in $files; do
     ab-av1 crf-search \
       -i "$file" \
       --pix-format yuv420p10le \
-      --preset 3 \
+      --preset 2 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
       --min-xpsnr 96 \
@@ -57,7 +57,7 @@ for file in $files; do
     -pix_fmt yuv420p10le \
     -c:v libsvtav1 \
     -crf "$crf" \
-    -preset 3 \
+    -preset 2 \
     -c:a libopus \
     -b:a 160k \
     -c:s copy \
