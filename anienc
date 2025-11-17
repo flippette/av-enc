@@ -39,9 +39,9 @@ for file in $files; do
       -i "$file" \
       --pix-format yuv420p10le \
       --preset 3 \
-      --min-vmaf 96 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
+      --min-xpsnr 96 \
       --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
