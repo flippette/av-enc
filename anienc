@@ -35,13 +35,17 @@ for file in $files; do
 
   printf %s\\n "probing file $file"
   crf=$(
+    # XPSNR 42 dB is said to be visually lossless
+    # (https://wiki.x266.mov/docs/metrics/XPSNR),
+    # so we're experimentally selecting 39 dB to
+    # replace our former target VMAF score of 96.
     ab-av1 crf-search \
       -i "$file" \
       --pix-format yuv420p10le \
       --preset 2 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
-      --min-xpsnr 96 \
+      --min-xpsnr 39 \
       --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
