@@ -45,7 +45,7 @@ for file in $files; do
       --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
-    crf=24
+    crf=32
   fi
   printf %s\\n "using crf $crf for file $file"
 
