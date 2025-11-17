@@ -60,6 +60,7 @@ for file in $files; do
     -i "$file" \
     -pix_fmt yuv420p10le \
     -c:v libsvtav1 \
+    -b:v 0 \
     -crf "$crf" \
     -preset 2 \
     -c:a libopus \
