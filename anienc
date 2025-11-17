@@ -39,8 +39,9 @@ for file in $files; do
       -i "$file" \
       --pix-format yuv420p10le \
       --preset 3 \
-      --enc-input hwaccel=auto \
       --min-vmaf 96 \
+      --enc-input hwaccel=vaapi \
+      --enc-input vaapi_device=/dev/dri/renderD128 \
       --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
@@ -50,7 +51,8 @@ for file in $files; do
 
   printf %s\\n "encoding file $file"
   ffmpeg \
-    -hwaccel auto \
+    -hwaccel vaapi \
+    -vaapi_device vaapi_device=/dev/dri/renderD128 \
     -i "$file" \
     -pix_fmt yuv420p10le \
     -c:v libsvtav1 \
