@@ -17,7 +17,11 @@
         self',
         pkgs,
         ...
-      }: {
+      }: let
+        ffmpeg = pkgs.ffmpeg_8-full.override {
+          svt-av1 = pkgs.svt-av1-psy;
+        };
+      in {
         formatter = pkgs.writeShellScriptBin "nix-fmt" ''
           ${pkgs.alejandra}/bin/alejandra -q .
         '';
@@ -36,9 +40,9 @@
 
             buildInputs = [
               pkgs.ab-av1
-              pkgs.ffmpeg-full
               pkgs.ripgrep
               pkgs.uutils-coreutils-noprefix
+              ffmpeg
             ];
 
             checkPhase = ''
