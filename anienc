@@ -56,7 +56,7 @@ for file in $files; do
   printf %s\\n "encoding file $file"
   ffmpeg \
     -hwaccel vaapi \
-    -vaapi_device vaapi_device=/dev/dri/renderD128 \
+    -vaapi_device /dev/dri/renderD128 \
     -i "$file" \
     -pix_fmt yuv420p10le \
     -c:v libsvtav1 \
