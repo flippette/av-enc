@@ -10,7 +10,11 @@ IFS=$(printf "\n\t")
 query() {
   file=$1
   stream=$2
-  ffprobe -v quiet -show_streams -select_streams "$stream" "$file"
+  ffprobe \
+    -v quiet \
+    -show_streams \
+    -select_streams "$stream" \
+    "$file"
 }
 
 if [ $# -eq 0 ]; then
@@ -36,21 +40,19 @@ for file in $files; do
   printf %s\\n "probing file $file"
   crf=$(
     # Experimenting with Sousou no Frieren shows that
-    # XPSNR 39 roughly equals VMAF 93.9 to 94.5, and
-    # preset 3 only has an extremely minor impact on either,
-    # while being 3 times as fast.
+    # XPSNR 39.5 roughly equals VMAF 94 to 95.5. YMMV.
     ab-av1 crf-search \
       -i "$file" \
       --pix-format yuv420p10le \
-      --preset 3 \
+      --preset 2 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
-      --svt "psy-rd=2.0:lp=$(nproc)" \
-      --min-xpsnr 39 \
+      --svt "psy-rd=1.0:lp=$(nproc)" \
+      --min-xpsnr 39.5 \
       --thorough | rg predicted | cut -d ' ' -f 2
   )
   if [ "$crf" = "" ]; then
-    crf=32
+    crf=40
   fi
   printf %s\\n "using crf $crf for file $file"
 
@@ -63,8 +65,8 @@ for file in $files; do
     -c:v libsvtav1 \
     -b:v 0 \
     -crf "$crf" \
-    -preset 3 \
-    -svtav1-params "psy-rd=2.0:lp=$(nproc)" \
+    -preset 2 \
+    -svtav1-params "psy-rd=1.0:lp=$(nproc)" \
     -c:a libopus \
     -b:a 160k \
     -c:s copy \
