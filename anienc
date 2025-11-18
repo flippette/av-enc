@@ -43,7 +43,7 @@ for file in $files; do
       --preset 2 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
-      --svt 'psy-rd=1.0' \
+      --svt 'psy-rd=2.0:complex-hvs=1' \
       --min-xpsnr 39 \
       --thorough | rg predicted | cut -d ' ' -f 2
   )
@@ -62,7 +62,7 @@ for file in $files; do
     -b:v 0 \
     -crf "$crf" \
     -preset 2 \
-    -svtav1-params 'psy-rd=1.0' \
+    -svtav1-params 'psy-rd=2.0:complex-hvs=1' \
     -c:a libopus \
     -b:a 160k \
     -c:s copy \
