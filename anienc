@@ -35,12 +35,14 @@ for file in $files; do
 
   printf %s\\n "probing file $file"
   crf=$(
-    # Sousou no Frieren's first episode shows VMAF 95 is
-    # roughly equal to XPSNR 39.
+    # Experimenting with Sousou no Frieren shows that
+    # XPSNR 39 roughly equals VMAF 93.9 to 94.5, and
+    # preset 3 only has an extremely minor impact on either,
+    # while being 3 times as fast.
     ab-av1 crf-search \
       -i "$file" \
       --pix-format yuv420p10le \
-      --preset 2 \
+      --preset 3 \
       --enc-input hwaccel=vaapi \
       --enc-input vaapi_device=/dev/dri/renderD128 \
       --svt 'psy-rd=2.0' \
@@ -61,7 +63,7 @@ for file in $files; do
     -c:v libsvtav1 \
     -b:v 0 \
     -crf "$crf" \
-    -preset 2 \
+    -preset 3 \
     -svtav1-params 'psy-rd=2.0' \
     -c:a libopus \
     -b:a 160k \
