@@ -12,55 +12,27 @@
         "aarch64-darwin"
       ];
 
-      perSystem = {
-        self',
-        pkgs,
-        ...
-      }: let
-        ffmpeg = pkgs.ffmpeg_8-full.override {
-          svt-av1 = pkgs.svt-av1-psy;
-        };
-      in {
+      perSystem = {pkgs, ...}: {
         formatter = pkgs.writeShellScriptBin "nix-fmt" ''
           ${pkgs.alejandra}/bin/alejandra -q .
         '';
 
-        packages = {
-          default = self'.packages.anienc;
+        packages = rec {
+          default = anienc;
 
-          anienc = pkgs.stdenvNoCC.mkDerivation rec {
-            name = "anienc";
-            src = ./.;
+          anienc =
+            pkgs.callPackage
+            ./nix/anienc.nix
+            {
+              ffmpeg = pkgs.ffmpeg.override {
+                svt-av1 = svt-av1-psyex;
+              };
+            };
 
-            nativeBuildInputs = [
-              pkgs.shellcheck
-              pkgs.makeWrapper
-            ];
-
-            buildInputs = [
-              pkgs.ab-av1
-              pkgs.ripgrep
-              pkgs.uutils-coreutils-noprefix
-              ffmpeg
-            ];
-
-            checkPhase = ''
-              shellcheck ./anienc
-            '';
-
-            installPhase = ''
-              install -Dm555 \
-                ./anienc \
-                $out/bin/anienc
-            '';
-
-            postFixup = let
-              path = pkgs.lib.makeBinPath buildInputs;
-            in ''
-              wrapProgram $out/bin/anienc \
-                --set PATH ${path}
-            '';
-          };
+          svt-av1-psyex =
+            pkgs.callPackage
+            ./nix/svt-av1-psyex.nix
+            {};
         };
       };
     };
