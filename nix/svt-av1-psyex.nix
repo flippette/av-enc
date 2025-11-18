@@ -31,4 +31,21 @@ stdenv.mkDerivation {
   cmakeFlags = [
     (lib.cmakeBool "SVT_AV1_LTO" true)
   ];
+
+  meta = {
+    homepage = "https://github.com/blueswordm/svt-av1-psyex";
+    description = "Scalable Video Technology AV1 Encoder and Decoder";
+
+    longDescription = ''
+      The Scalable Video Technology for AV1 (SVT-AV1 Encoder and Decoder)
+      with perceptual enhancements for psychovisually optimal AV1 encoding.
+    '';
+
+    license = [
+      lib.licenses.aom
+      lib.licenses.bsd3
+    ];
+    platforms = lib.platforms.unix;
+    mainProgram = "SvtAv1EncApp";
+  };
 }
