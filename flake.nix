@@ -17,9 +17,14 @@
 
       imports = [
         inputs.git-hooks-nix.flakeModule
+        inputs.flake-parts.flakeModules.easyOverlay
       ];
 
-      perSystem = {pkgs, ...}: {
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
         pre-commit = {
           check.enable = true;
           settings.package = pkgs.prek;
@@ -42,6 +47,14 @@
             pkgs.callPackage
             ./nix/svt-av1-psyex.nix
             {};
+        };
+
+        overlayAttrs = {
+          inherit
+            (config.packages)
+            anienc
+            svt-av1-psyex
+            ;
         };
       };
     };
