@@ -45,8 +45,7 @@ for file in $files; do
       -i "$file" \
       --pix-format yuv420p10le \
       --preset 2 \
-      --enc-input hwaccel=vaapi \
-      --enc-input vaapi_device=/dev/dri/renderD128 \
+      --enc-input hwaccel=auto \
       --svt "psy-rd=1.0:lp=$(nproc)" \
       --min-xpsnr 39.5 \
       --thorough | rg predicted | cut -d ' ' -f 2
@@ -58,8 +57,7 @@ for file in $files; do
 
   printf %s\\n "encoding file $file"
   ffmpeg \
-    -hwaccel vaapi \
-    -vaapi_device /dev/dri/renderD128 \
+    -hwaccel auto \
     -i "$file" \
     -pix_fmt yuv420p10le \
     -c:v libsvtav1 \
