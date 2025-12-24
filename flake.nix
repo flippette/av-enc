@@ -2,6 +2,9 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    git-hooks-nix.url = "github:cachix/git-hooks.nix";
+    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {flake-parts, ...}:
@@ -12,10 +15,16 @@
         "aarch64-darwin"
       ];
 
+      imports = [
+        inputs.git-hooks-nix.flakeModule
+      ];
+
       perSystem = {pkgs, ...}: {
-        formatter = pkgs.writeShellScriptBin "nix-fmt" ''
-          ${pkgs.alejandra}/bin/alejandra -q .
-        '';
+        pre-commit = {
+          check.enable = true;
+          settings.package = pkgs.prek;
+          settings.hooks.alejandra.enable = true;
+        };
 
         packages = rec {
           default = anienc;
