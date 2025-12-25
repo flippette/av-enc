@@ -44,8 +44,12 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     path =
       lib.makeBinPath
       finalAttrs.buildInputs;
+    svtav1_params = finalAttrs.env.svtav1_params;
   in ''
     wrapProgram $out/bin/anienc \
-      --set PATH ${path}
+      --set PATH ${path} \
+      --set svtav1_params ${svtav1_params}
   '';
+
+  env.svtav1_params = "2";
 })
