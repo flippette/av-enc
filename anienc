@@ -23,7 +23,8 @@ else
   files=$*
 fi
 
-svtav1_preset=2
+# default preset
+: "${svtav1_preset:=2}"
 svtav1_params=$(
   printf %s \
     'psy-rd=1.0' \
