@@ -5,26 +5,35 @@
     import sources.nixpkgs {
       inherit system;
     },
-}: rec {
+}: let
+  buildFfmpeg = {ffmpeg, ...}:
+    ffmpeg.override {
+      svt-av1 = svt-av1-psyex;
+    };
+
   anienc =
     pkgs.callPackage
     ./nix/anienc.nix
-    {inherit ffmpeg;};
-
-  ffmpeg = pkgs.ffmpeg.override {
-    svt-av1 = svt-av1-psyex;
-  };
+    {ffmpeg = buildFfmpeg pkgs;};
 
   svt-av1-psyex =
     pkgs.callPackage
     ./nix/svt-av1-psyex.nix
     {};
+in {
+  inherit
+    anienc
+    svt-av1-psyex
+    ;
 
-  overlay = _: _: {
+  ffmpeg = buildFfmpeg pkgs;
+
+  overlay = _: prev: {
     inherit
       anienc
-      ffmpeg
       svt-av1-psyex
       ;
+
+    ffmpeg = buildFfmpeg prev;
   };
 }
