@@ -1,31 +1,5 @@
 {
   "pins": {
-    "flake-parts": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "hercules-ci",
-        "repo": "flake-parts"
-      },
-      "branch": "main",
-      "submodules": false,
-      "revision": "a34fae9c08a15ad73f295041fec82323541400a9",
-      "url": "https://github.com/hercules-ci/flake-parts/archive/a34fae9c08a15ad73f295041fec82323541400a9.tar.gz",
-      "hash": "sha256-XswHlK/Qtjasvhd1nOa1e8MgZ8GS//jBoTqWtrS1Giw="
-    },
-    "git-hooks-nix": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "cachix",
-        "repo": "git-hooks.nix"
-      },
-      "branch": "master",
-      "submodules": false,
-      "revision": "b68b780b69702a090c8bb1b973bab13756cc7a27",
-      "url": "https://github.com/cachix/git-hooks.nix/archive/b68b780b69702a090c8bb1b973bab13756cc7a27.tar.gz",
-      "hash": "sha256-t3T/xm8zstHRLx+pIHxVpQTiySbKqcQbK+r+01XVKc0="
-    },
     "nixpkgs": {
       "type": "Git",
       "repository": {
@@ -35,9 +9,9 @@
       },
       "branch": "nixos-unstable",
       "submodules": false,
-      "revision": "c0b0e0fddf73fd517c3471e546c0df87a42d53f4",
-      "url": "https://github.com/nixos/nixpkgs/archive/c0b0e0fddf73fd517c3471e546c0df87a42d53f4.tar.gz",
-      "hash": "sha256-coBu0ONtFzlwwVBzmjacUQwj3G+lybcZ1oeNSQkgC0M="
+      "revision": "cad22e7d996aea55ecab064e84834289143e44a0",
+      "url": "https://github.com/nixos/nixpkgs/archive/cad22e7d996aea55ecab064e84834289143e44a0.tar.gz",
+      "hash": "sha256-5vKw92l1GyTnjoLzEagJy5V5mDFck72LiQWZSOnSicw="
     }
   },
   "version": 7
