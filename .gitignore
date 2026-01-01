@@ -1,5 +1,2 @@
-# direnv
-/.direnv/
-
-# Nix artifacts
-/result
+# artifacts
+/result*
