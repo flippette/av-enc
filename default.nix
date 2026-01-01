@@ -9,11 +9,11 @@
   anienc =
     pkgs.callPackage
     ./nix/anienc.nix
-    {
-      ffmpeg = pkgs.ffmpeg.override {
-        svt-av1 = svt-av1-psyex;
-      };
-    };
+    {inherit ffmpeg;};
+
+  ffmpeg = pkgs.ffmpeg.override {
+    svt-av1 = svt-av1-psyex;
+  };
 
   svt-av1-psyex =
     pkgs.callPackage
@@ -23,6 +23,7 @@
   overlay = _: _: {
     inherit
       anienc
+      ffmpeg
       svt-av1-psyex
       ;
   };
