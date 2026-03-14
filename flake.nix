@@ -1,62 +1,23 @@
 {
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    git-hooks-nix.url = "github:cachix/git-hooks.nix";
-    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+
+    git-hooks.url = "github:cachix/git-hooks.nix";
+    git-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-
-      imports = [
-        inputs.git-hooks-nix.flakeModule
-        inputs.flake-parts.flakeModules.easyOverlay
-      ];
-
-      perSystem = {
-        config,
-        pkgs,
-        ...
-      }: {
-        pre-commit = {
-          check.enable = true;
-          settings.package = pkgs.prek;
-          settings.hooks.alejandra.enable = true;
-        };
-
-        packages = rec {
-          default = anienc;
-
-          anienc =
-            pkgs.callPackage
-            ./nix/anienc.nix
-            {inherit ffmpeg;};
-
-          ffmpeg = pkgs.ffmpeg.override {
-            svt-av1 = svt-av1-psyex;
-          };
-
-          svt-av1-psyex =
-            pkgs.callPackage
-            ./nix/svt-av1-psyex.nix
-            {};
-        };
-
-        overlayAttrs = {
-          inherit
-            (config.packages)
-            anienc
-            ffmpeg
-            svt-av1-psyex
-            ;
-        };
-      };
-    };
+  outputs = {
+    flake-parts,
+    import-tree,
+    ...
+  } @ inputs:
+    flake-parts.lib.mkFlake
+    {inherit inputs;}
+    (import-tree [
+      ./nix/modules
+    ]);
 }
