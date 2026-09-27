@@ -25,15 +25,7 @@ fi
 
 # default preset
 : "${svtav1_preset:=2}"
-svtav1_params=$(
-  printf %s \
-    'psy-rd=1.0' \
-    ':complex-hvs=1' \
-    ':hbd-mds=1' \
-    ':enable-dlf=2' \
-    ':noise-adaptive-filtering=4' \
-    ":lp=$(nproc)"
-)
+svtav1_params="lp=$(nproc)"
 
 for file in $files; do
   printf %s\\n "checking file $file"

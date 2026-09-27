@@ -7,8 +7,7 @@ Encoding scripts for my media library.
 Install these dependencies:
 
 - `ab-av1`
-- `ffmpeg` with at least the following features:
-  - `--enable-libsvtav1`, with `svt-av1-psy`
+- `ffmpeg` with `libsvtav1`
 - `coreutils`
 - `ripgrep`
 
